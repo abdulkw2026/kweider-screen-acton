@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kweider Sweets - Premium Menu (LG WebOS Optimized)</title>
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-dark: #2B180D;
+            --gold-gradient: linear-gradient(145deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            --gold-dark: #D4AF37;
+            --divider-color: rgba(191, 149, 63, 0.4);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000; 
+            font-family: 'Times New Roman', Times, serif; 
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative; 
+        }
+
+        #scale-wrapper {
+            width: 1080px;
+            height: 1920px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center; 
+        }
+
+        .menu-screen {
+            width: 1080px;
+            height: 1920px;
+            background-color: var(--bg-color);
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); 
+        }
+
+        .pages-wrapper {
+            flex: 1;
+            position: relative;
+            width: 100%;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 40px 0 40px;
+            box-sizing: border-box;
+            gap: 12px;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            /* تسريع الـ GPU وتقليل وقت الانتقال لحماية معالج التلفاز */
+            transition: opacity 0.3s linear;
+            will-change: opacity;
+            transform: translateZ(0); 
+        }
+
+        #page-promo {
+            padding: 0;
+            display: block;
+        }
+
+        .page.active {
+            opacity: 1;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        /* ================= تنسيقات صفحات المنيو العادية ================= */
+        .product-row {
+            display: grid;
+            grid-template-columns: 360px minmax(0, 1fr) 200px;
+            gap: 15px 15px; 
+            padding-bottom: 12px;
+            border-bottom: 2px dashed var(--divider-color);
+            align-items: center;
+        }
+
+        .product-row:last-child { border-bottom: none; }
+
+        .product-image {
+            width: 360px; height: 180px;
+            object-fit: contain; 
+            grid-column: 1;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
+        }
+
+        .header-section {
+            grid-column: 2;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            width: 100%;
+        }
+
+        .ar-title, .en-title {
+            width: 100%;
+            display: block; 
+            line-height: 1.2; 
+        }
+
+        .ar-title { font-size: 38px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; }
+        .en-title { font-size: 36px; font-weight: bold; color: #555; margin: 0; }
+
+        .prices-container {
+            grid-column: 3; 
+            display: flex; 
+            flex-direction: row; 
+            gap: 15px; 
+            align-items: center; 
+            justify-content: flex-end; 
+        }
+
+        .price-tag {
+            background: var(--gold-gradient); width: 90px; height: 90px; border-radius: 50%;
+            border: 2px solid #ffffff; outline: 2px solid #D4AF37;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1), inset 0 0 15px rgba(170, 119, 28, 0.4);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 34px; font-weight: bold; color: #111; line-height: 1.1; font-family: Arial, sans-serif; text-align: center;
+            flex-shrink: 0; 
+        }
+
+        .price-tag span.unit { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: #333; 
+            margin-bottom: 0px; 
+            line-height: 1;
+        }
+
+        /* ================= صورة العرض الافتتاحي ملء الشاشة ================= */
+        .promo-img-fullscreen {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; 
+        }
+
+        /* ================= الشعار الترويجي السفلي ================= */
+        .slogan-fixed-bottom {
+            width: 100%; 
+            text-align: center; 
+            padding: 20px 0 10px 0; 
+            margin-top: auto; 
+            background-color: rgba(255, 255, 255, 0.95); 
+            border-top: 2px solid rgba(191, 149, 63, 0.3); 
+            z-index: 20; 
+            position: relative; 
+        }
+
+        .slogan-ar { font-size: 28px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; letter-spacing: 1px; display: block; }
+        .slogan-en { font-size: 22px; font-weight: bold; color: #666; margin: 0; letter-spacing: 2px; display: block; }
+
+        .pagination-container {
+            height: 50px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            padding-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.95); 
+            z-index: 20;
+            position: relative;
+        }
+        .page-text { font-size: 22px; font-weight: bold; color: #888; letter-spacing: 2px; }
+        .dots { display: flex; gap: 10px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background-color: #ddd; transition: background 0.5s ease; }
+        .dot.active { background: var(--gold-gradient); transform: scale(1.2); }
+    </style>
+</head>
+<body>
+
+    <div id="scale-wrapper">
+        <div class="menu-screen">
+            <div class="pages-wrapper">
+                
+                <div class="page active" id="page-promo">
+                    <img src="promo.webp" alt="كنافة ترويجية" class="promo-img-fullscreen" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1080\' height=\'1920\'><rect width=\'100%\' height=\'100%\' fill=\'%232B180D\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'40\' fill=\'%23D4AF37\'>تنبيه: الصورة مفقودة!</text></svg>'">
+                </div>
+
+                <div class="page" id="page-2">
+                    <div class="product-row">
+                        <img src="nabulsih.webp" alt="كنافة بالجبنة نابلسية" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة بالجبنة "نابلسية"</h1>
+                            <h2 class="en-title">Kunafa with cheese "Nabulsih"</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£7</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Kunafa with cheese khashna.webp" alt="كنافة خشنة بالجبنة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة خشنة بالجبنة</h1>
+                            <h2 class="en-title">Kunafa with cheese "khashna"</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£7</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Um Al Narain.webp" alt="كنافة خشنة بالقشطة ام النارين" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة خشنة بالقشطة "ام النارين"</h1>
+                            <h2 class="en-title">Kunafa with Cream "Um Al Narain"</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£5</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="asmalyh with Cream.webp" alt="كنافة خشنة بالقشطة عثملية" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة خشنة بالقشطة "عثملية"</h1>
+                            <h2 class="en-title">Kunafa with Cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£7</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£25</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Madlouka with cream.webp" alt="مدلوقة بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">مدلوقة بالقشطة</h1>
+                            <h2 class="en-title">Madlouka with cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£7</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£25</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Halawa El Gibn with cream.webp" alt="حلاوة بالجبن مع بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">حلاوة بالجبن مع بالقشطة</h1>
+                            <h2 class="en-title">Halawa El Gibn with cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">4 pieces</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£25</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Namura.webp" alt="نمورة بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">نمورة بالقشطة</h1>
+                            <h2 class="en-title">Baklava with cream "Namura"</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">4 pieces</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Premium Cream Mabrouma.webp" alt="مغشوشة برمة بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">مغشوشة "برمة بالقشطة"</h1>
+                            <h2 class="en-title">Premium Cream Mabrouma</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">4 pieces</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page" id="page-3">
+                    <div class="product-row">
+                        <img src="Harisa With Almonds.webp" alt="هريسة باللوز" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">هريسة باللوز</h1>
+                            <h2 class="en-title">Harisa With Almonds</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">5 pieces</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£15</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Harisa Pistachios.webp" alt="هريسة بالفستق" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">هريسة بالفستق</h1>
+                            <h2 class="en-title">Harisa With Pistachios</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">4 pieces</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="pistachio Knafeh Spread.webp" alt="كنافة صوص الفستق الفاخر" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة "صوص الفستق الفاخر"</h1>
+                            <h2 class="en-title">pistachio Knafeh Spread</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Chocolate Knafeh Spread.webp" alt="كنافة الشوكولا الفاخر" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة "الشوكولا الفاخر"</h1>
+                            <h2 class="en-title">Chocolate Knafeh Spread</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Biscoff Knafeh Spread.webp" alt="كنافة لوتس" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة "لوتس"</h1>
+                            <h2 class="en-title">Biscoff Knafeh Spread</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Arabic ice cream.webp" alt="بوظة عربي بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">بوظة عربي بالقشطة</h1>
+                            <h2 class="en-title">Arabic ice cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">4 slices</span>£5</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£25</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Sponge Ice Cream Roll.webp" alt="كاسيتا" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كاسيتا</h1>
+                            <h2 class="en-title">Sponge Ice Cream Roll</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 slice</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£25</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Mixed Nuts Dates.webp" alt="تمر بالمكسرات المشكلة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">تمر بالمكسرات المشكلة</h1>
+                            <h2 class="en-title">Mixed Nuts Dates</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">100g</span>£2.5</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page" id="page-4">
+                    <div class="product-row">
+                        <img src="Qatayef with cream.webp" alt="قطايف بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">قطايف بالقشطة</h1>
+                            <h2 class="en-title">Qatayef with cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£1.5</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£15</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Qatayef with walnut.webp" alt="قطايف بالجوز" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">قطايف بالجوز</h1>
+                            <h2 class="en-title">Qatayef with walnut</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£1.5</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£15</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Warbat with cream.webp" alt="وربات بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">وربات بالقشطة</h1>
+                            <h2 class="en-title">Warbat with cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£2.5</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Warbat Pistachios.webp" alt="وربات بالفستق" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">وربات بالفستق</h1>
+                            <h2 class="en-title">Warbat Pistachios</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£3</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Warbat Cream Knafeh.webp" alt="وردات كنافة مع القشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">وردات كنافة مع القشطة</h1>
+                            <h2 class="en-title">Warbat Cream Knafeh</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£2.5</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Wardat with cream.webp" alt="وردات بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">وردات بالقشطة</h1>
+                            <h2 class="en-title">Wardat with cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£2.5</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Ghraybeh with cream.webp" alt="غريبة بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">غريبة بالقشطة</h1>
+                            <h2 class="en-title">Ghraybeh with cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£2.5</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Faisal Iya Pistachios.webp" alt="فيصليه بالفستق" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">فيصليه بالفستق</h1>
+                            <h2 class="en-title">Faisal Iya Pistachios</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page" id="page-5">
+                    <div class="product-row">
+                        <img src="Kunafa with Nuts.webp" alt="تاج الملك بالمكسرات" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">تاج الملك بالمكسرات</h1>
+                            <h2 class="en-title">Kunafa with Nuts</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£3</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="تاج الملك بالقشطة.webp" alt="تاج الملك بالقشطة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">تاج الملك بالقشطة</h1>
+                            <h2 class="en-title">Kunafa with Cream</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£2.5</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Kunafa with 2walnut.webp" alt="كنافة بالجوز" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة بالجوز</h1>
+                            <h2 class="en-title">Kunafa with walnut</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">1 piece</span>£1</div>
+                            <div class="price-tag"><span class="unit">500g</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Kunafa with cashews.webp" alt="كنافة بالكاجو" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة بالكاجو</h1>
+                            <h2 class="en-title">Kunafa with cashews</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">100g</span>£2.5</div>
+                            <div class="price-tag"><span class="unit">500g</span>£20</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Kunafa with hazelnut.webp" alt="كنافة بالبندق" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة بالبندق</h1>
+                            <h2 class="en-title">Kunafa with hazelnut</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">100g</span>£2.5</div>
+                            <div class="price-tag"><span class="unit">500g</span>£10</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Kunafa with Walnut.webp" alt="كنافة بالجوز" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة بالجوز</h1>
+                            <h2 class="en-title">Kunafa with Walnut</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">100g</span>£2.5</div>
+                            <div class="price-tag"><span class="unit">500g</span>£10</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Kunafa with almonds.webp" alt="كنافة لوز" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">كنافة لوز</h1>
+                            <h2 class="en-title">Kunafa with almonds</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">100g</span>£2.5</div>
+                            <div class="price-tag"><span class="unit">500g</span>£10</div>
+                        </div>
+                    </div>
+
+                    <div class="product-row">
+                        <img src="Mixed Nuts Dates.webp" alt="جوز هند بالمكسرات المشكلة" class="product-image" loading="lazy">
+                        <div class="header-section">
+                            <h1 class="ar-title">جوز هند بالمكسرات المشكلة</h1>
+                            <h2 class="en-title">Mixed Nuts Dates</h2>
+                        </div>
+                        <div class="prices-container">
+                            <div class="price-tag"><span class="unit">100g</span>£2.5</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="slogan-fixed-bottom">
+                <h3 class="slogan-ar">ما يميز حلوياتنا أنها قليلة السكر</h3>
+                <h4 class="slogan-en">What distinguishes our sweets is that they are low in sugar</h4>
+            </div>
+
+            <div class="pagination-container">
+                <div class="dots"></div>
+                <div class="page-text" id="page-indicator">الصفحة 1 من 5</div>
+            </div>
+
+        </div> 
+    </div>
+
+    <script>
+        function scaleToFit() {
+            const wrapper = document.getElementById('scale-wrapper');
+            let windowWidth = window.innerWidth;
+            let windowHeight = window.innerHeight;
+            
+            let scale;
+            if (windowWidth > windowHeight) {
+                scale = Math.min(windowWidth / 1920, windowHeight / 1080);
+                wrapper.style.transform = `translate(-50%, -50%) rotate(-90deg) scale(${scale})`;
+            } else {
+                scale = Math.min(windowWidth / 1080, windowHeight / 1920);
+                wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            }
+        }
+
+        // تم إلغاء مستمع حدث تغيير الحجم لأنه غير ضروري على التلفاز ويستهلك الموارد
+        scaleToFit(); // يتم تنفيذها مرة واحدة عند الإقلاع فقط
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const pages = document.querySelectorAll('.page');
+            const dotsContainer = document.querySelector('.dots');
+            const pageIndicator = document.getElementById('page-indicator');
+            const totalPages = pages.length;
+            let currentPageIndex = 0;
+            
+            const intervalTime = 12000; 
+
+            dotsContainer.innerHTML = '';
+            for(let i=0; i<totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if(i === 0) dot.classList.add('active');
+                dotsContainer.appendChild(dot);
+            }
+            const dots = document.querySelectorAll('.dot');
+
+            function changePage() {
+                for (let i = 0; i < totalPages; i++) {
+                    pages[i].classList.remove('active');
+                    dots[i].classList.remove('active');
+                }
+
+                currentPageIndex++;
+                if (currentPageIndex >= totalPages) {
+                    currentPageIndex = 0;
+                }
+
+                pages[currentPageIndex].classList.add('active');
+                dots[currentPageIndex].classList.add('active');
+                pageIndicator.innerText = `الصفحة ${currentPageIndex + 1} من ${totalPages}`;
+            }
+
+            if(totalPages > 1) {
+                setInterval(changePage, intervalTime);
+            }
+
+            // ==========================================
+            // الجدار الناري لحماية ذاكرة شاشة LG WebOS
+            // ==========================================
+            // إعادة تحميل صامتة وكاملة للمتصفح كل 6 ساعات (21,600,000 ملي ثانية)
+            // هذا يضمن مسح "القمامة البرمجية" ومنع توقف الشاشة نهائياً
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 21600000);
+
+        });
+    </script>
+</body>
+</html>
