@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kweider Sweets - Premium Menu (LG WebOS Optimized)</title>
+    <title>Kweider Sweets - Premium Menu (Luxury Ivory Edition)</title>
     
     <style>
         :root {
-            --bg-color: #ffffff;
+            /* الخلفية العاجية الفاخرة */
+            --bg-color: #fcfaf5; 
             --text-dark: #2B180D;
             --gold-gradient: linear-gradient(145deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             --gold-dark: #D4AF37;
-            --divider-color: rgba(191, 149, 63, 0.4);
+            --divider-color: rgba(191, 149, 63, 0.3);
         }
 
         body {
@@ -38,12 +39,14 @@
             width: 1080px;
             height: 1920px;
             background-color: var(--bg-color);
+            /* نمط زخرفي إسلامي خفيف جداً يعطي ملمس الفخامة */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM10 0C8.895 0 8 .895 8 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm80 0c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm0 80c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zM0 80c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM9 26c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm81 0c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2zm-1 54c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM1 80c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z'/%3E%3C/g%3E%3C/svg%3E");
             padding: 0;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5); 
+            box-shadow: 0 0 60px rgba(0,0,0,0.6); 
         }
 
         .pages-wrapper {
@@ -60,21 +63,15 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 40px 40px 0 40px;
+            padding: 50px 50px 0 50px;
             box-sizing: border-box;
             gap: 12px;
             opacity: 0;
             z-index: 1;
-            pointer-events: none;
-            /* تسريع الـ GPU وتقليل وقت الانتقال لحماية معالج التلفاز */
-            transition: opacity 0.3s linear;
+            transition: opacity 0.4s linear;
             will-change: opacity;
             transform: translateZ(0); 
-        }
-
-        #page-promo {
-            padding: 0;
-            display: block;
+            pointer-events: none;
         }
 
         .page.active {
@@ -83,13 +80,13 @@
             pointer-events: auto;
         }
 
-        /* ================= تنسيقات صفحات المنيو العادية ================= */
+        /* ================= تنسيقات الصفوف ================= */
         .product-row {
             display: grid;
-            grid-template-columns: 360px minmax(0, 1fr) 200px;
-            gap: 15px 15px; 
+            grid-template-columns: 360px minmax(0, 1fr) 220px;
+            gap: 15px; 
             padding-bottom: 12px;
-            border-bottom: 2px dashed var(--divider-color);
+            border-bottom: 1px solid var(--divider-color);
             align-items: center;
         }
 
@@ -98,28 +95,19 @@
         .product-image {
             width: 360px; height: 180px;
             object-fit: contain; 
-            grid-column: 1;
-            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.05));
+            filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.1));
         }
 
         .header-section {
-            grid-column: 2;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
             width: 100%;
         }
 
-        .ar-title, .en-title {
-            width: 100%;
-            display: block; 
-            line-height: 1.2; 
-        }
-
-        .ar-title { font-size: 38px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; }
-        .en-title { font-size: 36px; font-weight: bold; color: #555; margin: 0; }
+        .ar-title { font-size: 38px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; line-height: 1.2; }
+        .en-title { font-size: 34px; color: #6d645e; font-style: italic; margin: 0; line-height: 1.2; }
 
         .prices-container {
-            grid-column: 3; 
             display: flex; 
             flex-direction: row; 
             gap: 15px; 
@@ -128,47 +116,30 @@
         }
 
         .price-tag {
-            background: var(--gold-gradient); width: 90px; height: 90px; border-radius: 50%;
-            border: 2px solid #ffffff; outline: 2px solid #D4AF37;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1), inset 0 0 15px rgba(170, 119, 28, 0.4);
+            background: var(--gold-gradient); width: 95px; height: 95px; border-radius: 50%;
+            border: 2px solid #ffffff; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 34px; font-weight: bold; color: #111; line-height: 1.1; font-family: Arial, sans-serif; text-align: center;
-            flex-shrink: 0; 
+            font-size: 36px; font-weight: bold; color: #1a110a; line-height: 1.1;
+            flex-shrink: 0;
         }
 
-        .price-tag span.unit { 
-            font-size: 18px; 
-            font-weight: bold; 
-            color: #333; 
-            margin-bottom: 0px; 
-            line-height: 1;
-        }
+        .price-tag span.unit { font-size: 18px; font-weight: bold; color: #4a3b2a; line-height: 1; margin-bottom: 2px;}
 
-        /* ================= صورة العرض الافتتاحي ملء الشاشة ================= */
-        .promo-img-fullscreen {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1; 
-        }
-
-        /* ================= الشعار الترويجي السفلي ================= */
+        /* ================= تذييل الصفحة النظيف ================= */
         .slogan-fixed-bottom {
             width: 100%; 
             text-align: center; 
             padding: 20px 0 10px 0; 
-            margin-top: auto; 
-            background-color: rgba(255, 255, 255, 0.95); 
-            border-top: 2px solid rgba(191, 149, 63, 0.3); 
+            background: rgba(252, 250, 245, 0.95);
+            border-top: 2px solid var(--gold-dark);
             z-index: 20; 
             position: relative; 
+            margin-top: auto;
         }
 
-        .slogan-ar { font-size: 28px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; letter-spacing: 1px; display: block; }
-        .slogan-en { font-size: 22px; font-weight: bold; color: #666; margin: 0; letter-spacing: 2px; display: block; }
+        .slogan-ar { font-size: 30px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; letter-spacing: 1px; }
+        .slogan-en { font-size: 24px; font-weight: bold; color: #7d736a; margin: 0; letter-spacing: 1px; }
 
         .pagination-container {
             height: 50px; 
@@ -178,14 +149,14 @@
             justify-content: center; 
             gap: 8px; 
             padding-bottom: 10px;
-            background-color: rgba(255, 255, 255, 0.95); 
+            background: rgba(252, 250, 245, 0.95);
             z-index: 20;
             position: relative;
         }
         .page-text { font-size: 22px; font-weight: bold; color: #888; letter-spacing: 2px; }
         .dots { display: flex; gap: 10px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; background-color: #ddd; transition: background 0.5s ease; }
-        .dot.active { background: var(--gold-gradient); transform: scale(1.2); }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background-color: #d1cbc4; transition: all 0.4s ease; }
+        .dot.active { background: var(--gold-dark); transform: scale(1.3); box-shadow: 0 0 10px var(--gold-dark); }
     </style>
 </head>
 <body>
@@ -194,8 +165,8 @@
         <div class="menu-screen">
             <div class="pages-wrapper">
                 
-                <div class="page active" id="page-promo">
-                    <img src="promo.webp" alt="كنافة ترويجية" class="promo-img-fullscreen" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1080\' height=\'1920\'><rect width=\'100%\' height=\'100%\' fill=\'%232B180D\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'40\' fill=\'%23D4AF37\'>تنبيه: الصورة مفقودة!</text></svg>'">
+                <div class="page active" id="page-promo" style="padding: 0;">
+                    <img src="promo.webp" alt="Kweider Promo" style="width:100%; height:100%; object-fit:cover;">
                 </div>
 
                 <div class="page" id="page-2">
@@ -212,7 +183,7 @@
                     </div>
 
                     <div class="product-row">
-                        <img src="Kunafa with cheese khashna.webp" alt="كنافة خشنة بالجبنة" class="product-image" loading="lazy">
+                        <img src="Kunafawithcheesekhashna.webp" alt="كنافة خشنة بالجبنة" class="product-image" loading="lazy">
                         <div class="header-section">
                             <h1 class="ar-title">كنافة خشنة بالجبنة</h1>
                             <h2 class="en-title">Kunafa with cheese "khashna"</h2>
@@ -613,8 +584,7 @@
             }
         }
 
-        // تم إلغاء مستمع حدث تغيير الحجم لأنه غير ضروري على التلفاز ويستهلك الموارد
-        scaleToFit(); // يتم تنفيذها مرة واحدة عند الإقلاع فقط
+        scaleToFit(); 
 
         document.addEventListener('DOMContentLoaded', function() {
             const pages = document.querySelectorAll('.page');
@@ -654,15 +624,10 @@
                 setInterval(changePage, intervalTime);
             }
 
-            // ==========================================
             // الجدار الناري لحماية ذاكرة شاشة LG WebOS
-            // ==========================================
-            // إعادة تحميل صامتة وكاملة للمتصفح كل 6 ساعات (21,600,000 ملي ثانية)
-            // هذا يضمن مسح "القمامة البرمجية" ومنع توقف الشاشة نهائياً
             setTimeout(() => {
                 window.location.reload(true);
             }, 21600000);
-
         });
     </script>
 </body>
