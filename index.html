@@ -3,145 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kweider Sweets - Premium Menu (Luxury Ivory Edition + Flash Offers)</title>
+    <title>Kweider Sweets - Premium Menu (Luxury Ivory Edition)</title>
     
     <style>
         :root {
-            /* الخلفية العاجية الفاخرة */
             --bg-color: #fcfaf5; 
             --text-dark: #2B180D;
             --gold-gradient: linear-gradient(145deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             --gold-dark: #D4AF37;
             --divider-color: rgba(191, 149, 63, 0.3);
-            --offer-red: #8b1c1c; /* العنابي الملكي للعروض */
+            --offer-red: #8b1c1c; 
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #000000; 
+            margin: 0; padding: 0; background-color: #000000; 
             font-family: 'Times New Roman', Times, serif; 
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            position: relative; 
+            width: 100vw; height: 100vh; overflow: hidden; position: relative; 
         }
 
         #scale-wrapper {
-            width: 1080px;
-            height: 1920px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            width: 1080px; height: 1920px; position: absolute; top: 50%; left: 50%;
             transform-origin: center center; 
         }
 
        .menu-screen {
-            width: 1080px;
-            height: 1920px;
-            background-color: var(--bg-color);
-            
-            /* دمج صورتك الفاخرة مع طبقة لمعان زجاجية */
-            background-image: 
-                linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 100%),
-                url("ivory-bg.webp"); 
-            
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            
-            padding: 0;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            
-            /* ظل داخلي يعطي إحساساً بعمق الورق المطبوع */
+            width: 1080px; height: 1920px; background-color: var(--bg-color);
+            background-image: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 100%), url("ivory-bg.webp"); 
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            padding: 0; box-sizing: border-box; display: flex; flex-direction: column; position: relative;
             box-shadow: inset 0 0 80px rgba(0,0,0,0.08), 0 0 60px rgba(0,0,0,0.6); 
         }
 
-        .pages-wrapper {
-            flex: 1;
-            position: relative;
-            width: 100%;
-        }
+        .pages-wrapper { flex: 1; position: relative; width: 100%; }
 
         .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 50px 50px 0 50px;
-            box-sizing: border-box;
-            gap: 12px;
-            opacity: 0;
-            z-index: 1;
-            transition: opacity 0.4s linear;
-            will-change: opacity;
-            transform: translateZ(0); 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; padding: 50px 50px 0 50px;
+            box-sizing: border-box; gap: 12px; opacity: 0; z-index: 1;
+            transition: opacity 0.4s linear; will-change: opacity; transform: translateZ(0); 
             pointer-events: none;
         }
 
-        .page.active {
-            opacity: 1;
-            z-index: 10;
-            pointer-events: auto;
-        }
+        .page.active { opacity: 1; z-index: 10; pointer-events: auto; }
 
-        /* ================= تنسيقات الصفوف العادية ================= */
         .product-row {
-            display: grid;
-            grid-template-columns: 360px minmax(0, 1fr) 220px;
-            gap: 15px; 
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--divider-color);
-            align-items: center;
+            display: grid; grid-template-columns: 360px minmax(0, 1fr) 220px; gap: 15px; 
+            padding-bottom: 12px; border-bottom: 1px solid var(--divider-color); align-items: center;
         }
-
         .product-row:last-child { border-bottom: none; }
-
+        
         .product-image {
-            width: 360px; height: 180px;
-            object-fit: contain; 
+            width: 360px; height: 180px; object-fit: contain; 
             filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.1));
         }
 
         .header-section {
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            width: 100%;
+            display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; text-align: center; width: 100%;
         }
 
         .ar-title { font-size: 38px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; line-height: 1.2; }
         .en-title { font-size: 34px; color: #6d645e; font-style: italic; margin: 0; line-height: 1.2; }
 
         .prices-container {
-            display: flex; 
-            flex-direction: row; 
-            gap: 15px; 
-            align-items: center; 
-            justify-content: flex-end; 
+            display: flex; flex-direction: row; gap: 15px; align-items: center; justify-content: flex-end; 
         }
 
         .price-tag {
             background: var(--gold-gradient); width: 95px; height: 95px; border-radius: 50%;
-            border: 2px solid #ffffff; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            border: 2px solid #ffffff; box-shadow: 0 6px 15px rgba(0,0,0,0.15);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 36px; font-weight: bold; color: #1a110a; line-height: 1.1;
-            flex-shrink: 0;
+            font-size: 36px; font-weight: bold; color: #1a110a; line-height: 1.1; flex-shrink: 0;
         }
-
         .price-tag span.unit { font-size: 18px; font-weight: bold; color: #4a3b2a; line-height: 1; margin-bottom: 2px;}
 
-        /* ================= ستايل التخفيضات العادي ================= */
         .discount-tag {
-            position: relative; 
-            background: #ffffff; 
-            border: 3px solid var(--gold-dark);
+            position: relative; background: #ffffff; border: 3px solid var(--gold-dark);
             width: 105px; height: 105px; 
         }
         .discount-tag .unit { font-size: 16px; color: #666; margin-bottom: 0;}
@@ -149,37 +86,33 @@
         .discount-tag .new-price { font-size: 38px; font-weight: bold; color: var(--offer-red); line-height: 1; }
 
         .save-badge {
-            position: absolute; top: -20px; left: -25px; 
-            background-color: var(--offer-red); color: #ffe11c; 
-            font-size: 20px; padding: 5px 12px; line-height: 1.1; 
-            border-radius: 7px; font-weight: bold; border: 3px solid var(--gold-dark); 
-            box-shadow: 0 5px 12px rgba(0,0,0,0.3); transform: rotate(-10deg); 
+            position: absolute; top: -20px; left: -25px; background-color: var(--offer-red); color: #ffe11c; 
+            font-size: 20px; padding: 5px 12px; line-height: 1.1; border-radius: 7px; font-weight: bold; 
+            border: 3px solid var(--gold-dark); box-shadow: 0 5px 12px rgba(0,0,0,0.3); transform: rotate(-10deg); 
             white-space: nowrap; text-align: center; animation: slight-bounce 2s infinite; z-index: 5; 
         }
 
-        /* ================= 💡 تصميم صفحة عروض الخطف الضخمة 💡 ================= */
+        /* --- تصميم الإعلانات (عروض الخطف) --- */
         .offer-page-container {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            width: 100%; height: 95%; position: relative; text-align: center;
-            background: rgba(252, 250, 245, 0.85); /* دمج مع الخلفية العاجية */
-            border-radius: 25px; border: 5px dashed var(--gold-dark); margin-top: 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%; height: 95%; position: relative; text-align: center; background: rgba(252, 250, 245, 0.85); 
+            border-radius: 25px; border: 5px dashed var(--gold-dark); margin-top: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
         .offer-badge-large {
             position: absolute; top: 50px; left: 50px; background: var(--offer-red); color: #fff;
             padding: 25px 45px; border-radius: 15px; border: 5px solid var(--gold-dark);
-            font-size: 55px; font-weight: bold; transform: rotate(-15deg);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.2); line-height: 1.1; z-index: 10;
-            animation: pulse-rotate 2s infinite ease-in-out; 
+            font-size: 55px; font-weight: bold; transform: rotate(-15deg); box-shadow: 0 15px 25px rgba(0,0,0,0.2); 
+            line-height: 1.1; z-index: 10; animation: pulse-rotate 2s infinite ease-in-out; 
         }
         .offer-badge-large span { font-size: 30px; display: block; color: #FCF6BA; letter-spacing: 2px;}
+        
         .offer-image-giant {
-            width: 750px; height: 450px; object-fit: contain; margin-bottom: 40px;
-            filter: drop-shadow(0px 25px 30px rgba(0,0,0,0.2));
+            width: 750px; height: 450px; object-fit: contain; margin-bottom: 20px; filter: drop-shadow(0px 25px 30px rgba(0,0,0,0.2));
         }
         .offer-title-ar { font-size: 110px; font-weight: bold; color: var(--text-dark); margin: 0 0 15px 0; line-height: 1.2; }
-        .offer-title-en { font-size: 70px; font-weight: bold; color: #7d736a; margin: 0 0 60px 0; font-style: italic; }
+        .offer-title-en { font-size: 70px; font-weight: bold; color: #7d736a; margin: 0 0 40px 0; font-style: italic; }
         .offer-pricing-row { display: flex; gap: 70px; align-items: center; justify-content: center; }
+        
         .offer-tag-special {
             background: #ffffff; width: 280px; height: 280px; border-radius: 50%;
             border: 10px solid var(--gold-dark); box-shadow: 0 20px 30px rgba(0,0,0,0.25);
@@ -189,42 +122,36 @@
         .offer-tag-special .old-price { text-decoration: line-through; color: #aaa; font-size: 45px; font-weight: normal; margin-bottom: -5px; line-height: 1;}
         .offer-tag-special .new-price { font-size: 110px; font-weight: bold; color: var(--offer-red); line-height: 1; }
 
+        /* ستايل مدة العرض الجديد */
+        .offer-validity {
+            margin-top: 35px;
+            padding-top: 15px;
+            border-top: 2px dashed var(--gold-dark);
+            width: 70%;
+            text-align: center;
+        }
+        .offer-validity-ar { font-size: 32px; font-weight: bold; color: var(--offer-red); margin: 0 0 5px 0; }
+        .offer-validity-en { font-size: 26px; font-weight: bold; color: #7d736a; margin: 0; letter-spacing: 1px; }
+
         @keyframes pulse-rotate {
-            0% { transform: rotate(-15deg) scale(1); }
+            0%, 100% { transform: rotate(-15deg) scale(1); }
             50% { transform: rotate(-10deg) scale(1.05); }
-            100% { transform: rotate(-15deg) scale(1); }
         }
         @keyframes slight-bounce {
             0%, 100% { transform: rotate(-10deg) translateY(0); }
             50% { transform: rotate(-10deg) translateY(-5px); }
         }
 
-        /* ================= تذييل الصفحة النظيف ================= */
         .slogan-fixed-bottom {
-            width: 100%; 
-            text-align: center; 
-            padding: 20px 0 10px 0; 
-            background: rgba(252, 250, 245, 0.85);
-            border-top: 2px solid var(--gold-dark);
-            z-index: 20; 
-            position: relative; 
-            margin-top: auto;
+            width: 100%; text-align: center; padding: 20px 0 10px 0; background: rgba(252, 250, 245, 0.85);
+            border-top: 2px solid var(--gold-dark); z-index: 20; position: relative; margin-top: auto;
         }
-
         .slogan-ar { font-size: 30px; font-weight: bold; color: var(--text-dark); margin: 0 0 5px 0; letter-spacing: 1px; }
         .slogan-en { font-size: 24px; font-weight: bold; color: #7d736a; margin: 0; letter-spacing: 1px; }
 
         .pagination-container {
-            height: 50px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            padding-bottom: 10px;
-            background: rgba(252, 250, 245, 0.85);
-            z-index: 20;
-            position: relative;
+            height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            gap: 8px; padding-bottom: 10px; background: rgba(252, 250, 245, 0.85); z-index: 20; position: relative;
         }
         .page-text { font-size: 22px; font-weight: bold; color: #888; letter-spacing: 2px; }
         .dots { display: flex; gap: 10px; }
@@ -322,15 +249,10 @@
                             <h2 class="en-title">Premium Cream Namura</h2>
                         </div>
                         <div class="prices-container">
-                            <div class="price-tag"><span class="unit">4 piece</span>£4</div>
-                             <div class="price-tag discount-tag">
-                                <div class="save-badge">وفر<br>SAVE £3</div>
-                                <span class="unit">1kg</span>
-                                <span class="old-price">£20</span>
-                                <span class="new-price">£17</span>
-                            </div>
+                            <div class="price-tag"><span class="unit">4 pieces</span>£4</div>
+                            <div class="price-tag"><span class="unit">1kg</span>£20</div>
                         </div>
-                   </div>
+                    </div>
 
                     <div class="product-row">
                         <img src="Premium Cream Mabrouma.webp" alt="مغشوشة برمة بالقشطة" class="product-image" loading="lazy">
@@ -349,16 +271,18 @@
                     <div class="offer-page-container">
                         <div class="offer-badge-large">وفر<br><span>SAVE £5</span></div>
                         <img src="Harisa With Almonds.webp" alt="Premium Almond Harisa" class="offer-image-giant">
-                        
                         <h1 class="offer-title-ar">هريسة باللوز</h1>
                         <h2 class="offer-title-en">Premium Almond Harisa</h2>
-                        
                         <div class="offer-pricing-row">
                             <div class="offer-tag-special">
                                 <span class="unit">1kg</span>
                                 <span class="old-price">£15</span>
                                 <span class="new-price">£10</span>
                             </div>
+                        </div>
+                        <div class="offer-validity">
+                            <p class="offer-validity-ar">العرض ساري حتى نهاية شهر نيسان</p>
+                            <p class="offer-validity-en">Offer ends 30th April</p>
                         </div>
                     </div>
                 </div>
@@ -558,6 +482,26 @@
                     </div>
                 </div>
 
+                <div class="page" id="page-flash-2" data-duration="5000">
+                    <div class="offer-page-container">
+                        <div class="offer-badge-large">وفر<br><span>SAVE £3</span></div>
+                        <img src="Namura.webp" alt="Premium Namura" class="offer-image-giant">
+                        <h1 class="offer-title-ar">نمورة بالقشطة الطازجة</h1>
+                        <h2 class="offer-title-en">Premium Baklava with cream "Namura"</h2>
+                        <div class="offer-pricing-row">
+                            <div class="offer-tag-special">
+                                <span class="unit">1kg</span>
+                                <span class="old-price">£20</span>
+                                <span class="new-price">£17</span>
+                            </div>
+                        </div>
+                        <div class="offer-validity">
+                            <p class="offer-validity-ar">العرض ساري حتى نهاية شهر نيسان</p>
+                            <p class="offer-validity-en">Offer ends 30th April</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="page" id="page-5" data-duration="12000">
                     <div class="product-row">
                         <img src="Kunafa with Nuts.webp" alt="تاج الملك بالمكسرات" class="product-image" loading="lazy">
@@ -654,24 +598,6 @@
                     </div>
                 </div>
 
-                <div class="page" id="page-flash-2" data-duration="5000">
-                    <div class="offer-page-container">
-                        <div class="offer-badge-large">وفر<br><span>SAVE £3</span></div>
-                        <img src="Namura.webp" alt="Premium Almond Harisa" class="offer-image-giant">
-                        
-                        <h1 class="offer-title-ar">نمورة بالقشطة الطازجة</h1>
-                        <h2 class="offer-title-en">Premium Baklava with cream "Namura"</h2>
-                        
-                        <div class="offer-pricing-row">
-                            <div class="offer-tag-special">
-                                <span class="unit">1kg</span>
-                                <span class="old-price">£20</span>
-                                <span class="new-price">£17</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <div class="slogan-fixed-bottom">
@@ -681,7 +607,7 @@
 
             <div class="pagination-container">
                 <div class="dots"></div>
-                <div class="page-text" id="page-indicator">الصفحة 1 من 7</div>
+                <div class="page-text" id="page-indicator">جاري التحميل...</div>
             </div>
 
         </div> 
@@ -714,7 +640,6 @@
             let currentPageIndex = 0;
             let timerId;
 
-            // بناء النقاط السفلية
             dotsContainer.innerHTML = '';
             for(let i=0; i<totalPages; i++) {
                 const dot = document.createElement('div');
@@ -723,8 +648,9 @@
                 dotsContainer.appendChild(dot);
             }
             const dots = document.querySelectorAll('.dot');
+            
+            pageIndicator.innerText = `الصفحة 1 من ${totalPages}`;
 
-            // المحرك الذكي
             function changePage() {
                 for (let i = 0; i < totalPages; i++) {
                     pages[i].classList.remove('active');
@@ -740,7 +666,6 @@
                 dots[currentPageIndex].classList.add('active');
                 pageIndicator.innerText = `الصفحة ${currentPageIndex + 1} من ${totalPages}`;
 
-                // قراءة زمن الصفحة من الكود أو وضع 12 ثانية افتراضياً
                 let nextTime = parseInt(pages[currentPageIndex].getAttribute('data-duration')) || 12000;
                 timerId = setTimeout(changePage, nextTime);
             }
@@ -750,10 +675,9 @@
                 timerId = setTimeout(changePage, firstTime);
             }
 
-            // الجدار الناري لحماية ذاكرة شاشة LG WebOS
             setTimeout(() => {
                 window.location.reload(true);
-            }, 21600000);
+            }, 21600000); 
         });
     </script>
 </body>
